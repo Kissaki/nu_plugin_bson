@@ -1,0 +1,9 @@
+[package]
+name = "nu_plugin_bson"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bson = "2.14.0"
+nu-plugin = "0.102.0"
+nu-protocol = "0.102.0"
