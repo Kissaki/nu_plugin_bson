@@ -5,5 +5,5 @@ edition = "2024"
 
 [dependencies]
 bson = "2.14.0"
-nu-plugin = "0.102.0"
-nu-protocol = "0.102.0"
+nu-plugin = "0.103.0"
+nu-protocol = "0.103.0"
