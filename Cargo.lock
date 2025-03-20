@@ -938,6 +938,7 @@ name = "nu_plugin_bson"
 version = "0.1.0"
 dependencies = [
  "bson",
+ "indexmap",
  "nu-plugin",
  "nu-protocol",
 ]

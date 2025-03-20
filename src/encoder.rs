@@ -1,10 +1,7 @@
 use crate::BsonPlugin;
-use bson::Bson;
+use bson::*;
 use nu_plugin::{EngineInterface, EvaluatedCall, PluginCommand, SimplePluginCommand};
-use nu_protocol::{
-    ByteStream, ByteStreamType, Category, IntoPipelineData, LabeledError, PipelineData, Signals,
-    Signature, Span, SyntaxShape, Type, Value,
-};
+use nu_protocol::{Category, LabeledError, Signature, Value};
 
 pub struct ToBson;
 
@@ -33,39 +30,30 @@ impl SimplePluginCommand for ToBson {
         //) -> Result<PipelineData, LabeledError> {
     ) -> Result<Value, LabeledError> {
         let span = input.span();
+
         match input {
-            // Value::String { val, .. } => Ok(
-            //     Value::int(val.len() as i64, span)
-            // ),
-            Value::String { val, .. } => {
-                let bson_string = Bson::String(val.to_string());
-                let bin = bson::to_vec(&bson_string).unwrap();
-                Ok(Value::binary(bin, span))
-            },
-            Value::Record { val, internal_span } => {
-                let bson = Bson::Document(val);
-                let bin = bson::to_vec(&bson).unwrap();
-                Ok(Value::binary(bin, span))
+            Value::Bool { val, .. } => {
+                let b: Bson = bson!(val);
+                let x = Value::Bool {
+                    val: b.as_bool().unwrap(),
+                    internal_span: span,
+                };
+                Ok(x)
             }
-            // Value::String { val, .. } => {
-            //     // Ok(Value::Binary(Bson::String(val.to_string())) { val: bsonString, internal_span: input.span() } { val: bson, span: *span })
-            //     // let bson: Bson = val.into_bson()?;
-            //     let bson_string = Bson::String(val.to_string());
-            //     Ok(Value::binary(bson_string, input.span()))
+            // Value::Record {
+            //     val, ..
+            // } => {
+            //     let d = doc!(val);
+            //     let x = Value
+            //     Ok(x)
             // },
-            // Value::String { val, .. } => {
-            //     // Ok(Value::Binary(Bson::String(val.to_string())) { val: bsonString, internal_span: input.span() } { val: bson, span: *span })
-            //     // let bson: Bson = val.into_bson()?;
-            //     let bson_string = Bson::String(val.to_string());
-            //     Ok(Value::Binary(bson_string, input.span()))
-            // },
-            _ => Err(
-                LabeledError::new("Expected String input from pipeline").with_label(
-                    format!("requires string input; got {}", input.get_type()),
-                    call.head,
-                ),
-            ),
+            _ => {
+                let doc: Document = to_document(&input).unwrap();
+                let bson: Bson = to_bson(&input).unwrap();
+                let bin: Vec<u8> = bson::to_vec(&doc).unwrap();
+                let binary: Value = Value::binary(bin, span);
+                Ok(binary)
+            }
         }
-        // let bson: Bson = input.into_bson()?;
     }
 }

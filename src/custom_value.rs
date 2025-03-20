@@ -1,24 +1,28 @@
-use crate::BsonPlugin;
-
+use crate::serde::{Deserialize, Serialize};
+use bson::{Bson, Document};
 use nu_protocol::{CustomValue, ShellError, Span, Value, record};
-use serde::{Deserialize, Serialize};
 use std::any::Any;
-use bson::{Bson,Document};
+
+enum Wrap {
+    Bson(Bson),
+    Document(Document),
+}
 
 #[typetag::serde]
-impl CustomValue for Bson {
+impl CustomValue for Wrap::Bson {
     fn clone_value(&self, span: Span) -> Value {
         Value::custom_value(Box::new(self.clone()), span)
     }
 
     fn type_name(&self) -> String {
-        "Bson".into()
+        "Document".into()
     }
 
     fn to_base_value(&self, span: Span) -> Result<Value, ShellError> {
+        let b = from_bson(span).unwrap();
         // Construct a simple Nushell value that makes sense here.
         // It must not be a custom value.
-        Ok(Value::record(record! {}, span))
+        Ok(Value::string(self.to_string(), span))
     }
 
     fn as_any(&self) -> &dyn Any {
