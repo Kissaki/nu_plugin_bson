@@ -1,8 +1,11 @@
 use nu_plugin::{Plugin, PluginCommand};
-mod decoder;
-mod encoder;
-use decoder::FromBson;
-use encoder::ToBson;
+mod from_bson;
+mod to_bson;
+mod nu_to_bson;
+mod bson_to_nu;
+
+use from_bson::FromBson;
+use to_bson::ToBson;
 
 pub struct BsonPlugin;
 
@@ -12,6 +15,9 @@ impl Plugin for BsonPlugin {
     }
 
     fn commands(&self) -> Vec<Box<dyn PluginCommand<Plugin = Self>>> {
-        vec![Box::new(FromBson), Box::new(ToBson)]
+        vec![
+            Box::new(FromBson),
+            Box::new(ToBson),
+        ]
     }
 }

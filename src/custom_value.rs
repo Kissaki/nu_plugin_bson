@@ -9,16 +9,19 @@ enum Wrap {
 }
 
 #[typetag::serde]
-impl CustomValue for Wrap::Bson {
+impl CustomValue for Wrap {
     fn clone_value(&self, span: Span) -> Value {
         Value::custom_value(Box::new(self.clone()), span)
     }
 
     fn type_name(&self) -> String {
-        "Document".into()
+        "Wrap".into()
     }
 
     fn to_base_value(&self, span: Span) -> Result<Value, ShellError> {
+        match self {
+            Bson => Ok(bson::from_bson(span)),
+        }
         let b = from_bson(span).unwrap();
         // Construct a simple Nushell value that makes sense here.
         // It must not be a custom value.
