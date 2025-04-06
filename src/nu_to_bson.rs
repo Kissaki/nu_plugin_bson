@@ -4,8 +4,7 @@ use nu_protocol::{Span, Value};
 pub fn nu_value_to_nu_bson_binary(val: &Value) -> Value {
     let bson = nu_value_to_bson(val);
     let doc = bson.as_document().unwrap();
-    let nu_binary = document_to_nubinary(doc);
-    nu_binary
+    document_to_nubinary(doc)
 }
 
 pub fn nu_value_to_bson(val: &Value) -> Bson {
@@ -16,9 +15,9 @@ pub fn nu_value_to_bson(val: &Value) -> Bson {
                 let key = x.0;
                 let bson_value = nu_value_to_bson(x.1);
                 doc.insert(key, bson_value);
-            };
+            }
             doc.into()
-        },
+        }
         // Value::List { vals, internal_span } => {
         //     let a = vals.iter().map(convert_v);
         //     Bson::Array(a)

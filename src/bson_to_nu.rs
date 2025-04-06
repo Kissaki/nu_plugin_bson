@@ -1,7 +1,9 @@
-use bson::{Bson, Document, RawDocument, RawDocumentBuf};
+use bson::{Bson, Document};
 use nu_protocol::{Record, Span, Value};
 use std::collections::HashMap;
 use std::io::{Cursor, Read};
+
+// TODO: Explore RawDocument and RawDocumentBut and raw bson crate
 
 // Possibly multiple
 pub fn parse_binary(val: &Vec<u8>) -> Vec<Document> {
@@ -12,7 +14,7 @@ pub fn parse_binary(val: &Vec<u8>) -> Vec<Document> {
     // let doc = Document::try_from(raw).unwrap();
     // docs.push(doc);
     // docs
-    
+
     let mut cursor = Cursor::new(val);
 
     // TODO: Should handle/forward Err
@@ -26,7 +28,10 @@ pub fn parse_binary(val: &Vec<u8>) -> Vec<Document> {
 pub fn convert_binary(val: &Vec<u8>) -> Vec<Value> {
     let span = Span::unknown();
 
-    let mapped: Vec<Value> = parse_binary(val).iter().map(|doc| convert_document(&doc, span)).collect();
+    let mapped: Vec<Value> = parse_binary(val)
+        .iter()
+        .map(|doc| convert_document(doc, span))
+        .collect();
 
     Vec::from_iter(mapped)
 }
@@ -38,7 +43,7 @@ pub fn convert_document(doc: &Document, span: Span) -> Value {
         map.insert(key.clone(), convert_value(value, span));
     }
 
-    let r = Record::from_iter(map.into_iter());
+    let r = Record::from_iter(map);
     Value::record(r, span)
 }
 
@@ -57,7 +62,10 @@ pub fn convert_value(val: &Bson, span: Span) -> Value {
 }
 
 pub fn convert_array(arr: &[Bson], span: Span) -> Value {
-    Value::list(arr.iter().map(|value| convert_value(value, span)).collect(), span)
+    Value::list(
+        arr.iter().map(|value| convert_value(value, span)).collect(),
+        span,
+    )
 }
 
 pub fn convert_document2(doc: &Document) -> Value {
@@ -67,7 +75,7 @@ pub fn convert_document2(doc: &Document) -> Value {
         map.insert(key.clone(), convert_value(value, Span::unknown()));
     }
 
-    let r = Record::from_iter(map.into_iter());
+    let r = Record::from_iter(map);
     Value::record(r, Span::unknown())
 }
 

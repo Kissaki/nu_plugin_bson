@@ -1,8 +1,10 @@
-use crate::bson_to_nu::convert_document2;
 use crate::BsonPlugin;
+use crate::bson_to_nu::convert_document2;
 use bson::Document;
 use nu_plugin::{EngineInterface, EvaluatedCall, PluginCommand};
-use nu_protocol::{Category, LabeledError, ListStream, PipelineData, Reader, Signals, Signature, Span, Type, Value};
+use nu_protocol::{
+    Category, LabeledError, ListStream, PipelineData, Reader, Signals, Signature, Span, Type, Value,
+};
 use std::io::Read;
 
 pub struct FromBson;
@@ -34,8 +36,6 @@ impl PluginCommand for FromBson {
         match input {
             PipelineData::Empty => Ok(input),
             PipelineData::ByteStream(byte_stream, _pipeline_metadata) => {
-                // let mut cursor = Cursor::new(byte_stream);
-
                 let mut reader: Reader = byte_stream.reader().unwrap();
 
                 let mut docs: Vec<Document> = Vec::new();
@@ -45,9 +45,10 @@ impl PluginCommand for FromBson {
 
                 let values: Vec<Value> = docs.iter().map(convert_document2).collect();
 
-                let out_stream = ListStream::new(values.into_iter(), Span::unknown(), Signals::empty());
+                let out_stream =
+                    ListStream::new(values.into_iter(), Span::unknown(), Signals::empty());
                 Ok(PipelineData::ListStream(out_stream, None))
-            },
+            }
             // PipelineData::Value(value, _pipeline_metadata) => {
             //     match value {
             //         Value::Binary { val, .. } => {

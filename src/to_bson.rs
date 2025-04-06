@@ -1,5 +1,5 @@
-use crate::nu_to_bson::nu_value_to_nu_bson_binary;
 use crate::BsonPlugin;
+use crate::nu_to_bson::nu_value_to_nu_bson_binary;
 use nu_plugin::{EngineInterface, EvaluatedCall, PluginCommand};
 use nu_protocol::{Category, LabeledError, PipelineData, Signature, Type};
 
@@ -9,7 +9,7 @@ impl PluginCommand for ToBson {
     type Plugin = BsonPlugin;
 
     fn name(&self) -> &str {
-        "to bson2"
+        "to bson"
     }
 
     fn signature(&self) -> Signature {
@@ -39,11 +39,11 @@ impl PluginCommand for ToBson {
             PipelineData::Value(value, _pipeline_metadata) => {
                 let encoded = nu_value_to_nu_bson_binary(&value);
                 Ok(PipelineData::Value(encoded, None))
-            },
+            }
             PipelineData::ListStream(list_stream, _pipeline_metadata) => {
                 let values = list_stream.map(|x| nu_value_to_nu_bson_binary(&x));
                 Ok(PipelineData::ListStream(values, None))
-            },
+            }
             _ => Err(
                 LabeledError::new("Can only parse byte stream as BSON").with_label(
                     format!("requires binary input; got {}", input.get_type()),

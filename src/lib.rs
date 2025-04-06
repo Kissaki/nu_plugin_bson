@@ -1,8 +1,8 @@
 use nu_plugin::{Plugin, PluginCommand};
-mod from_bson;
-mod to_bson;
-mod nu_to_bson;
 mod bson_to_nu;
+mod from_bson;
+mod nu_to_bson;
+mod to_bson;
 
 use crate::from_bson::FromBson;
 use crate::to_bson::ToBson;
@@ -15,9 +15,6 @@ impl Plugin for BsonPlugin {
     }
 
     fn commands(&self) -> Vec<Box<dyn PluginCommand<Plugin = Self>>> {
-        vec![
-            Box::new(FromBson),
-            Box::new(ToBson),
-        ]
+        vec![Box::new(FromBson), Box::new(ToBson)]
     }
 }
