@@ -1,16 +1,15 @@
-use crate::nu_to_bson::nu_value_to_bson;
+use crate::nu_to_bson::nu_value_to_nu_bson_binary;
 use crate::BsonPlugin;
-use bson::Bson;
-use nu_plugin::{EngineInterface, EvaluatedCall, PluginCommand, SimplePluginCommand};
-use nu_protocol::{Category, LabeledError, Signature, Span, Type, Value};
+use nu_plugin::{EngineInterface, EvaluatedCall, PluginCommand};
+use nu_protocol::{Category, LabeledError, PipelineData, Signature, Type};
 
 pub struct ToBson;
 
-impl SimplePluginCommand for ToBson {
+impl PluginCommand for ToBson {
     type Plugin = BsonPlugin;
 
     fn name(&self) -> &str {
-        "to bson"
+        "to bson2"
     }
 
     fn signature(&self) -> Signature {
@@ -25,22 +24,32 @@ impl SimplePluginCommand for ToBson {
     }
 
     fn description(&self) -> &str {
-        "Convert to BSON (binary data)"
+        "Convert to BSON (binary JSON)"
     }
 
     fn run(
         &self,
         _plugin: &BsonPlugin,
         _engine: &EngineInterface,
-        _call: &EvaluatedCall,
-        input: &Value,
-    ) -> Result<Value, LabeledError> {
-        let a: Bson = nu_value_to_bson(input);
-        let b: Vec<u8> = bson::to_vec(&a.as_document().unwrap()).unwrap();
-        let nu = Value::Binary {
-            val: b,
-            internal_span: Span::unknown(),
-        };
-        Ok(nu)
+        call: &EvaluatedCall,
+        input: PipelineData,
+    ) -> Result<PipelineData, LabeledError> {
+        match input {
+            PipelineData::Empty => Ok(PipelineData::Empty),
+            PipelineData::Value(value, _pipeline_metadata) => {
+                let encoded = nu_value_to_nu_bson_binary(&value);
+                Ok(PipelineData::Value(encoded, None))
+            },
+            PipelineData::ListStream(list_stream, _pipeline_metadata) => {
+                let values = list_stream.map(|x| nu_value_to_nu_bson_binary(&x));
+                Ok(PipelineData::ListStream(values, None))
+            },
+            _ => Err(
+                LabeledError::new("Can only parse byte stream as BSON").with_label(
+                    format!("requires binary input; got {}", input.get_type()),
+                    call.head,
+                ),
+            ),
+        }
     }
 }
