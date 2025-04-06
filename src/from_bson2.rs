@@ -13,7 +13,7 @@ impl PluginCommand for FromBson2 {
     }
 
     fn description(&self) -> &str {
-        "Convert BSON to table in a stream"
+        "from bson2"
     }
 
     fn run(

@@ -1,8 +1,5 @@
 use nu_plugin::{EngineInterface, EvaluatedCall, PluginCommand, SimplePluginCommand};
-use nu_protocol::{
-    Category, LabeledError,
-    Signature, Value,
-};
+use nu_protocol::{Category, LabeledError, Signature, Type, Value};
 
 use crate::BsonPlugin;
 
@@ -16,7 +13,9 @@ impl SimplePluginCommand for FromBson {
     }
 
     fn signature(&self) -> Signature {
-        Signature::build(PluginCommand::name(self)).category(Category::Formats)
+        Signature::build(PluginCommand::name(self))
+            .input_output_type(Type::Binary, Type::Any)
+            .category(Category::Formats)
     }
 
     fn description(&self) -> &str {
@@ -38,11 +37,15 @@ impl SimplePluginCommand for FromBson {
                 let b = Value::list(a, span);
                 Ok(b)
             }
+            Value::String { val, .. } => {
+                Err(
+                    LabeledError::new("Can only parse binary data as BSON")
+                        .with_label(format!("requires binary input; got {} with {}", input.get_type(), val), call.head),
+                )
+            },
             _ => Err(
-                LabeledError::new("Can only parse binary data as BSON").with_label(
-                    format!("requires binary input; got {}", input.get_type()),
-                    call.head,
-                ),
+                LabeledError::new("Can only parse binary data as BSON")
+                    .with_label(format!("requires binary input; got {}", input.get_type()), call.head),
             ),
         }
     }

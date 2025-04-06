@@ -28,13 +28,13 @@ impl SimplePluginCommand for ToBson {
         _call: &EvaluatedCall,
         input: &Value,
     ) -> Result<Value, LabeledError> {
-        let x: Span = Span::unknown();
+        let span_unknown = Span::unknown();
 
         let a: Bson = convert_value(input);
         let b: Vec<u8> = bson::to_vec(&a.as_document().unwrap()).unwrap();
         let nu = Value::Binary {
             val: b,
-            internal_span: x,
+            internal_span: span_unknown,
         };
         Ok(nu)
     }

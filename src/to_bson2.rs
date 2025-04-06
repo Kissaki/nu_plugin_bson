@@ -9,7 +9,7 @@ impl PluginCommand for ToBson2 {
     }
 
     fn description(&self) -> &str {
-        "Convert BSON to table in a stream"
+        "to bson2"
     }
 
     fn signature(&self) -> Signature {
