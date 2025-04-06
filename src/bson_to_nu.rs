@@ -57,7 +57,12 @@ pub fn convert_value(val: &Bson, span: Span) -> Value {
         Bson::Double(d) => Value::float(*d, span),
         Bson::Boolean(b) => Value::bool(*b, span),
         Bson::Null => Value::nothing(span),
-        _ => Value::nothing(span),
+        Bson::Binary(b) => {
+            let bin = b.bytes.clone();
+            Value::binary(bin, Span::unknown())
+        },
+        // _ => Value::nothing(Span::unknown()),
+        _ => panic!("Unhandled BSON type {}", val)
     }
 }
 
@@ -89,6 +94,11 @@ pub fn convert_value2(val: &Bson) -> Value {
         Bson::Double(d) => Value::float(*d, Span::unknown()),
         Bson::Boolean(b) => Value::bool(*b, Span::unknown()),
         Bson::Null => Value::nothing(Span::unknown()),
-        _ => Value::nothing(Span::unknown()),
+        Bson::Binary(b) => {
+            let bin = b.bytes.clone();
+            Value::binary(bin, Span::unknown())
+        },
+        // _ => Value::nothing(Span::unknown()),
+        _ => panic!("Unhandled BSON type {}", val)
     }
 }

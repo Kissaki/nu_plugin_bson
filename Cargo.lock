@@ -938,6 +938,7 @@ dependencies = [
 name = "nu_plugin_bson"
 version = "0.1.0"
 dependencies = [
+ "base64",
  "bson",
  "nu-plugin",
  "nu-protocol",

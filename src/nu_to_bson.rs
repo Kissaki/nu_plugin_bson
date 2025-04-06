@@ -1,4 +1,9 @@
-use bson::{Bson, Document};
+use base64::Engine;
+use base64::prelude::BASE64_STANDARD;
+use bson::{Binary, Bson, Document};
+use bson::binary::Vector;
+use bson::spec::BinarySubtype;
+use bson::spec::BinarySubtype::Generic;
 use nu_protocol::{Span, Value};
 
 pub fn nu_value_to_nu_bson_binary(val: &Value) -> Value {
@@ -18,13 +23,14 @@ pub fn nu_value_to_bson(val: &Value) -> Bson {
             }
             doc.into()
         }
-        // Value::List { vals, internal_span } => {
-        //     let a = vals.iter().map(convert_v);
-        //     Bson::Array(a)
-        // },
-        // Value::Binary { val, internal_span } => {
-        //     Binary::from(val);
-        // },
+        Value::List { vals, .. } => {
+            let a = vals.iter().map(|x| nu_value_to_bson(x)).collect();
+            Bson::Array(a)
+        },
+        Value::Binary { val, .. } => {
+            let b64 = BASE64_STANDARD.encode(val);
+            Binary::from_base64(b64, Generic).unwrap().into()
+        },
         Value::Bool { val, .. } => Bson::Boolean(*val),
         Value::Int { val, .. } => Bson::Int64(*val),
         Value::Float { val, .. } => Bson::Double(*val),
