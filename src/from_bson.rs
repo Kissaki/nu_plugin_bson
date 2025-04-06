@@ -14,8 +14,8 @@ impl SimplePluginCommand for FromBson {
 
     fn signature(&self) -> Signature {
         Signature::build(PluginCommand::name(self))
-            .input_output_type(Type::Binary, Type::Any)
             .category(Category::Formats)
+            .input_output_type(Type::Binary, Type::Any)
     }
 
     fn description(&self) -> &str {
