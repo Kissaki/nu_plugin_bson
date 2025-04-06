@@ -1,6 +1,35 @@
-use std::collections::HashMap;
-use bson::{Bson, Document};
+use bson::{Bson, Document, RawDocument, RawDocumentBuf};
 use nu_protocol::{Record, Span, Value};
+use std::collections::HashMap;
+use std::io::{Cursor, Read};
+
+// Possibly multiple
+pub fn parse_binary(val: &Vec<u8>) -> Vec<Document> {
+    let mut docs: Vec<Document> = Vec::new();
+
+    // TODO: Should handle/forward Err
+    // let raw = RawDocumentBuf::from_bytes(val).unwrap();
+    // println!("{:?}", raw);
+    // let doc = Document::try_from(raw).unwrap();
+    // docs.push(doc);
+    // docs
+    
+    let mut cursor = Cursor::new(val);
+    
+    while let Ok(doc) = Document::from_reader(cursor.by_ref()) {
+        docs.push(doc);
+    }
+
+    docs
+}
+
+pub fn convert_binary(val: &Vec<u8>) -> Vec<Value> {
+    let span = Span::new(0, 0);
+
+    let mapped: Vec<Value> = parse_binary(val).iter().map(|doc| convert_document(&doc, span)).collect();
+
+    Vec::from_iter(mapped)
+}
 
 pub fn convert_document(doc: &Document, span: Span) -> Value {
     let mut map = HashMap::new();

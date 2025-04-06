@@ -3,6 +3,7 @@ use bson::{Bson, Document};
 use nu_protocol::{CustomValue, ShellError, Span, Value, record};
 use std::any::Any;
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
 enum Wrap {
     Bson(Bson),
     Document(Document),
@@ -11,6 +12,7 @@ enum Wrap {
 #[typetag::serde]
 impl CustomValue for Wrap {
     fn clone_value(&self, span: Span) -> Value {
+        
         Value::custom_value(Box::new(self.clone()), span)
     }
 
