@@ -1,7 +1,5 @@
 use base64::Engine;
 use base64::prelude::BASE64_STANDARD;
-use bson::binary::Vector;
-use bson::spec::BinarySubtype;
 use bson::spec::BinarySubtype::Generic;
 use bson::{Binary, Bson, Document};
 use nu_protocol::{Span, Value};
