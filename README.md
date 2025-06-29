@@ -25,9 +25,15 @@ open test.bson | describe
 # => table<b: int, a: int> (stream)
 ```
 
-## Install
+## Plugin Installation
 
-### Via cargo bin
+In Nushell, plugins are registered executables. See commands `plugin list`, `plugin add`, `plugin use`.
+
+To install the `nu_plugin_bson` plugin, you can use `cargo` (Rust development toolchain) to build and install your own version, or download a pre-built executable from the [latest GitHub release](https://github.com/Kissaki/nu_plugin_bson/releases/latest).
+
+See also [Nushell Installing Plugins documentation](https://www.nushell.sh/book/plugins.html#installing-plugins).
+
+### Build and Install Using Cargo
 
 ```nushell
 cargo install --path . --locked
