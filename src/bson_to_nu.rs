@@ -60,9 +60,9 @@ pub fn convert_value(val: &Bson, span: Span) -> Value {
         Bson::Binary(b) => {
             let bin = b.bytes.clone();
             Value::binary(bin, Span::unknown())
-        },
+        }
         // _ => Value::nothing(Span::unknown()),
-        _ => panic!("Unhandled BSON type {}", val)
+        _ => panic!("Unhandled BSON type {}", val),
     }
 }
 
@@ -97,8 +97,8 @@ pub fn convert_value2(val: &Bson) -> Value {
         Bson::Binary(b) => {
             let bin = b.bytes.clone();
             Value::binary(bin, Span::unknown())
-        },
+        }
         // _ => Value::nothing(Span::unknown()),
-        _ => panic!("Unhandled BSON type {}", val)
+        _ => panic!("Unhandled BSON type {}", val),
     }
 }
