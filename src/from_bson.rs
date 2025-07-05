@@ -49,15 +49,32 @@ impl PluginCommand for FromBson {
                     ListStream::new(values.into_iter(), Span::unknown(), Signals::empty());
                 Ok(PipelineData::ListStream(out_stream, None))
             }
-            // PipelineData::Value(value, _pipeline_metadata) => {
-            //     match value {
-            //         Value::Binary { val, .. } => {
-            //             let a = crate::bson_to_nu::convert_binary(val);
-            //             let b = Value::list(a, Span::unknown());
-            //             Ok(b)
-            //         }
-            //     }
-            // }
+            PipelineData::Value(value, _pipeline_metadata) => match value {
+                Value::Binary { val, .. } => {
+                    match bson::RawDocumentBuf::from_bytes(val) {
+                        Ok(doc_buf) => match doc_buf.to_document() {
+                            Ok(doc) => {
+                                let value = convert_document2(&doc);
+                                let b = PipelineData::Value(value, _pipeline_metadata);
+                                Ok(b)
+                            }
+                            Err(e) => Err(LabeledError::new("Failed to parse BSON")
+                                .with_label(format!("BSON parsing error: {}", e), call.head)),
+                        },
+                        Err(e) => Err(LabeledError::new("Failed to parse BSON")
+                            .with_label(format!("BSON parsing error: {}", e), call.head)),
+                    }
+                    //let a = crate::bson_to_nu::convert_binary(&val);
+                    // let b = PipelineData::Value(doc, Span::unknown());
+                    // Ok(b)
+                }
+                _ => Err(
+                    LabeledError::new("Can only parse binary value as BSON").with_label(
+                        format!("requires binary input; got {}", value.get_type()),
+                        call.head,
+                    ),
+                ),
+            },
             _ => Err(
                 LabeledError::new("Can only parse byte stream as BSON").with_label(
                     format!("requires binary input; got {}", input.get_type()),
