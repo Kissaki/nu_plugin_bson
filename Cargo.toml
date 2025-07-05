@@ -1,6 +1,6 @@
 [package]
 name = "nu_plugin_bson"
-version = "25.1051.1"
+version = "25.1051.2"
 edition = "2024"
 
 description = "Nushell plugin for BSON format (Binary JSON)"
