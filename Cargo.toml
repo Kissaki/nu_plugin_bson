@@ -1,6 +1,6 @@
 [package]
 name = "nu_plugin_bson"
-version = "25.1060.0"
+version = "25.1061.0"
 edition = "2024"
 
 description = "Nushell plugin for BSON format (Binary JSON)"
@@ -11,6 +11,6 @@ license-file = "LICENSE"
 
 [dependencies]
 bson = "2.14.0"
-nu-plugin = "0.106.0"
-nu-protocol = { version = "0.106.0", features = ["plugin"] }
+nu-plugin = "0.106.1"
+nu-protocol = { version = "0.106.1", features = ["plugin"] }
 base64 = "0.22.1"
