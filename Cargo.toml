@@ -11,6 +11,6 @@ license-file = "LICENSE"
 
 [dependencies]
 bson = "2.14.0"
-nu-plugin = "0.106.1"
-nu-protocol = { version = "0.106.1", features = ["plugin"] }
+nu-plugin = "0.107.0"
+nu-protocol = { version = "0.107.0", features = ["plugin"] }
 base64 = "0.22.1"
