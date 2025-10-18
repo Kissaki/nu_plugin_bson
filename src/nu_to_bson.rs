@@ -43,16 +43,10 @@ pub fn nu_value_to_bson(val: &Value) -> Bson {
 
 pub fn bson_to_nu_binary(bson: &Bson) -> Value {
     let b: Vec<u8> = bson::to_vec(&bson.as_document().unwrap()).unwrap();
-    Value::Binary {
-        val: b,
-        internal_span: Span::unknown(),
-    }
+    Value::binary(b, Span::unknown())
 }
 
 pub fn document_to_nubinary(doc: &Document) -> Value {
     let b: Vec<u8> = bson::to_vec(&doc).unwrap();
-    Value::Binary {
-        val: b,
-        internal_span: Span::unknown(),
-    }
+    Value::binary(b, Span::unknown())
 }
