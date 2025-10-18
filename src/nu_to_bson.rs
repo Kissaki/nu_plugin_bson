@@ -12,6 +12,15 @@ pub fn nu_value_to_nu_bson_binary(val: &Value) -> Value {
 
 pub fn nu_value_to_bson(val: &Value) -> Bson {
     match val {
+        Value::Bool { val, .. } => Bson::Boolean(*val),
+        Value::Int { val, .. } => Bson::Int64(*val),
+        Value::Float { val, .. } => Bson::Double(*val),
+        Value::String { val, .. } => Bson::String(val.to_string()),
+        Value::Glob { val, .. } => Bson::String(val.to_string()),
+        Value::Filesize { val, .. } => Bson::Int64(i64::from(*val)),
+        Value::Duration { val, .. } => Bson::Int64(*val),
+        Value::Date { val, .. } => Bson::DateTime(bson::DateTime::from_chrono(*val)),
+        Value::Range { val, .. } => Bson::String(val.to_string()),
         Value::Record { val, .. } => {
             let mut doc = Document::new();
             for x in val.iter() {
@@ -25,19 +34,17 @@ pub fn nu_value_to_bson(val: &Value) -> Bson {
             let a = vals.iter().map(|x| nu_value_to_bson(x)).collect();
             Bson::Array(a)
         }
+        // Closure is missing transformation mapping
+        Value::Closure { .. } => Bson::Null,
+        Value::Error { error, .. } => Bson::String(error.to_string()),
         Value::Binary { val, .. } => {
             let b64 = BASE64_STANDARD.encode(val);
             Binary::from_base64(b64, Generic).unwrap().into()
         }
-        Value::Bool { val, .. } => Bson::Boolean(*val),
-        Value::Int { val, .. } => Bson::Int64(*val),
-        Value::Float { val, .. } => Bson::Double(*val),
-        Value::String { val, .. } => Bson::String(val.to_string()),
-        //Value::Duration { val, internal_span } => Bson::from(val),
-        //Value::Date { val, internal_span } => Bson::from(val.to_string()),
-        //Value::Date { val, internal_span } => Bson::DateTime(val),
+        Value::CellPath { val, .. } => Bson::String(val.to_string()),
+        // Custom is missing transformation mapping
+        Value::Custom { .. } => Bson::Null,
         Value::Nothing { .. } => Bson::Null,
-        _ => Bson::Null,
     }
 }
 
