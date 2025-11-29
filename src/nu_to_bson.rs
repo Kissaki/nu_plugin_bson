@@ -31,7 +31,7 @@ pub fn nu_value_to_bson(val: &Value) -> Bson {
             doc.into()
         }
         Value::List { vals, .. } => {
-            let a = vals.iter().map(|x| nu_value_to_bson(x)).collect();
+            let a = vals.iter().map(nu_value_to_bson).collect();
             Bson::Array(a)
         }
         // Closure is missing transformation mapping
