@@ -53,3 +53,12 @@ After add and use, to update the plugin, replacing the executable is enough. To 
 ```nushell
 plugin list | where name == 'bson' | table -e
 ```
+
+## Release Version Schema
+
+```
+        26.1100.0
+        ^^ ^^^^ ^
+      Year  |   plugin patch version
+           Nushell feature and patch or protocol version
+```
