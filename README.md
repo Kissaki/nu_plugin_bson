@@ -56,7 +56,7 @@ plugin list | where name == 'bson' | table -e
 
 ## Release Version Schema
 
-```
+```text
         26.1100.0
         ^^ ^^^^ ^
       Year  |   plugin patch version
