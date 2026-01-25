@@ -1015,7 +1015,7 @@ dependencies = [
 
 [[package]]
 name = "nu_plugin_bson"
-version = "25.1090.0"
+version = "26.1100.0"
 dependencies = [
  "base64",
  "bson",
