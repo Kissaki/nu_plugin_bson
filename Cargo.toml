@@ -1,6 +1,6 @@
 [package]
 name = "nu_plugin_bson"
-version = "26.1100.0"
+version = "26.1110.0"
 edition = "2024"
 
 description = "Nushell plugin for BSON format (Binary JSON)"
@@ -12,6 +12,6 @@ keywords = ["nu", "plugin", "bson"]
 
 [dependencies]
 bson = { version = "2.14.0", features = ["chrono-0_4"] }
-nu-plugin = "0.110.0"
-nu-protocol = { version = "0.110.0", features = ["plugin"] }
+nu-plugin = "0.111.0"
+nu-protocol = { version = "0.111.0", features = ["plugin"] }
 base64 = "0.22.1"
