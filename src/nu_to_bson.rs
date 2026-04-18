@@ -1,5 +1,3 @@
-use base64::Engine;
-use base64::prelude::BASE64_STANDARD;
 use bson::spec::BinarySubtype::Generic;
 use bson::{Binary, Bson, Document};
 use nu_protocol::{Span, Value};
@@ -37,10 +35,11 @@ pub fn nu_value_to_bson(val: &Value) -> Bson {
         // Closure is missing transformation mapping
         Value::Closure { .. } => Bson::Null,
         Value::Error { error, .. } => Bson::String(error.to_string()),
-        Value::Binary { val, .. } => {
-            let b64 = BASE64_STANDARD.encode(val);
-            Binary::from_base64(b64, Generic).unwrap().into()
+        Value::Binary { val, .. } => Binary {
+            subtype: Generic,
+            bytes: val.to_vec(),
         }
+        .into(),
         Value::CellPath { val, .. } => Bson::String(val.to_string()),
         // Custom is missing transformation mapping
         Value::Custom { .. } => Bson::Null,
