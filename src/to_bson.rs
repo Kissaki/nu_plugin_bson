@@ -41,7 +41,10 @@ impl PluginCommand for ToBson {
             }
             _ => Err(
                 LabeledError::new("Not every type can be transformed into BSON").with_label(
-                    format!("requires transformable input type; got {}", input.get_type()),
+                    format!(
+                        "requires transformable input type; got {}",
+                        input.get_type()
+                    ),
                     call.head,
                 ),
             ),
