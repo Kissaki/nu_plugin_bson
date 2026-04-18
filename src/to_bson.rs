@@ -16,11 +16,6 @@ impl PluginCommand for ToBson {
         Signature::build(PluginCommand::name(self))
             .category(Category::Formats)
             .input_output_type(Type::Any, Type::Binary)
-            .input_output_type(Type::Bool, Type::Binary)
-            .input_output_type(Type::Binary, Type::Binary)
-            .input_output_type(Type::Float, Type::Binary)
-            .input_output_type(Type::Int, Type::Binary)
-            .input_output_type(Type::String, Type::Binary)
     }
 
     fn description(&self) -> &str {
