@@ -40,8 +40,8 @@ impl PluginCommand for ToBson {
                 Ok(PipelineData::ListStream(values, None))
             }
             _ => Err(
-                LabeledError::new("Can only parse byte stream as BSON").with_label(
-                    format!("requires binary input; got {}", input.get_type()),
+                LabeledError::new("Not every type can be transformed into BSON").with_label(
+                    format!("requires transformable input type; got {}", input.get_type()),
                     call.head,
                 ),
             ),
