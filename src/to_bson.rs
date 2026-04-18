@@ -38,15 +38,17 @@ impl PluginCommand for ToBson {
                 let values = list_stream.map(|x| nu_value_to_nu_bson_binary(&x));
                 Ok(PipelineData::ListStream(values, None))
             }
-            _ => Err(
-                LabeledError::new("Not every type can be transformed into BSON").with_label(
-                    format!(
-                        "requires transformable input type; got {}",
-                        input.get_type()
-                    ),
-                    call.head,
+            _ => Err(LabeledError::new(
+                "Only document-like (tables, records) types can be converted to BSON",
+            )
+            .with_label(
+                format!(
+                    "requires transformable input type; got {}",
+                    input.get_type()
                 ),
-            ),
+                call.head,
+            )
+            .with_help("Consider wrapping values into a key-value record")),
         }
     }
 }
