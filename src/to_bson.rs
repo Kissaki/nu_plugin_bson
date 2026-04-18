@@ -1,5 +1,4 @@
-use crate::BsonPlugin;
-use crate::nu_to_bson::nu_value_to_nu_bson_binary;
+use crate::{BsonPlugin, nu_to_bson::nu_value_to_nu_bson_binary};
 use nu_plugin::{EngineInterface, EvaluatedCall, PluginCommand};
 use nu_protocol::{Category, LabeledError, PipelineData, Signature, Type};
 
