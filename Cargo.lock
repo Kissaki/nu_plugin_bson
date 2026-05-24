@@ -453,6 +453,7 @@ dependencies = [
  "quote",
  "rustc_version",
  "syn",
+ "unicode-xid",
 ]
 
 [[package]]
@@ -537,9 +538,9 @@ dependencies = [
 
 [[package]]
 name = "fancy-regex"
-version = "0.17.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "72cf461f865c862bb7dc573f643dd6a2b6842f7c30b07882b56bd148cc2761b8"
+checksum = "e1e1dacd0d2082dfcf1351c4bdd566bbe89a2b263235a2b50058f1e130a47277"
 dependencies = [
  "bit-set",
  "regex-automata",
@@ -706,20 +707,14 @@ dependencies = [
 
 [[package]]
 name = "hashbrown"
-version = "0.16.1"
+version = "0.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "841d1cc9bed7f9236f321df977030373f4a4163ae1a7dbfe1a51a2c1a51d9100"
+checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
 dependencies = [
  "allocator-api2",
  "equivalent",
  "foldhash 0.2.0",
 ]
-
-[[package]]
-name = "hashbrown"
-version = "0.17.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
 
 [[package]]
 name = "heck"
@@ -866,9 +861,9 @@ dependencies = [
 
 [[package]]
 name = "lean_string"
-version = "0.5.3"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a262b6ae1dd9c2d3cf7977a816578b03bf8fb60b61545c395880f95eefc5b24"
+checksum = "385ba1b8a25159d816b62eea948cf3c6b38c5050c92ca901c570deead00316e5"
 dependencies = [
  "castaway",
  "itoa",
@@ -947,11 +942,11 @@ checksum = "5e5032e24019045c762d3c0f28f5b6b8bbf38563a65908389bf7978758920897"
 
 [[package]]
 name = "lru"
-version = "0.16.4"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7f66e8d5d03f609abc3a39e6f08e4164ebf1447a732906d39eb9b99b7919ef39"
+checksum = "8a860605968fce16869fd239cf4237a82f3ac470723415db603b0e8b6c8d4fb9"
 dependencies = [
- "hashbrown 0.16.1",
+ "hashbrown 0.17.1",
 ]
 
 [[package]]
@@ -1074,9 +1069,9 @@ dependencies = [
 
 [[package]]
 name = "nu-derive-value"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e956c3fc512be60e3d31aa8f58d063bd0b11e06b89da53326b5e12c8f5f94b1b"
+checksum = "ea0ee759a7475ced1231b0194c9e0fac8d638323239168e8e0ec4b53c0553213"
 dependencies = [
  "heck",
  "proc-macro-error2",
@@ -1087,9 +1082,9 @@ dependencies = [
 
 [[package]]
 name = "nu-engine"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6eae3d2f0c563e58a4ed1cbb8eab360f904d8ef737e9accfcf524795b0a6e9c5"
+checksum = "93b06db85010d5fd2f4943efd37a431eefdc22e2ed16f00ffac5e9d8d4fb5dbd"
 dependencies = [
  "fancy-regex",
  "log",
@@ -1102,9 +1097,9 @@ dependencies = [
 
 [[package]]
 name = "nu-experimental"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8f9952ce521ddc530a5bca70c62cbb8a6503a073f78b8aa6e96ea40adbe302e9"
+checksum = "71bb8ee13d1989488e3340e9d6502b82a6eec59829a54214b1318b8e18cb1866"
 dependencies = [
  "itertools 0.14.0",
  "thiserror 2.0.18",
@@ -1112,15 +1107,15 @@ dependencies = [
 
 [[package]]
 name = "nu-glob"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69f454999da57e72aad847db6caed952b1fba6f51e21b388a13da80ff2452ed0"
+checksum = "072c7fc42e59fc84bf2a78f28e1823d17105e0de09257a5a83ca2b374ea31dc8"
 
 [[package]]
 name = "nu-path"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d6841982bbdf96ebc613d23957544f8d5c9a5b7a05627e4485f4558a0ab3ff04"
+checksum = "1884f42a2eff845c9ff9715354ef8aa27c5b0c8c021dcc87056b62f578f8db55"
 dependencies = [
  "dirs",
  "omnipath",
@@ -1130,9 +1125,9 @@ dependencies = [
 
 [[package]]
 name = "nu-plugin"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3a73e82aa075bb01f596056b7c1eb63d191e6bbfdd88bf459439f10d48eca402"
+checksum = "ae541c3de4f5c7191015cbe68bf321185d3302adce95f4d0c36bca88c9594501"
 dependencies = [
  "log",
  "nix",
@@ -1146,9 +1141,9 @@ dependencies = [
 
 [[package]]
 name = "nu-plugin-core"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "448ea168c670e8aa8c5071f82aaa4cdb34504dad2b6faf447e646adf10da8122"
+checksum = "7b97c66d4f200e1b579c7a69c693ac9b06d3e472720984df7e1d4396bbe7a432"
 dependencies = [
  "interprocess",
  "log",
@@ -1163,9 +1158,9 @@ dependencies = [
 
 [[package]]
 name = "nu-plugin-protocol"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ec4a780061ce7985f161d4cbab2f479b10eb17ce202c91c798b8f3ea26202a41"
+checksum = "f841d8de3bb1cb9513f5a41e2844cb9f807d6aae6f5cc03226ac924885465b53"
 dependencies = [
  "nu-protocol",
  "nu-utils",
@@ -1177,14 +1172,15 @@ dependencies = [
 
 [[package]]
 name = "nu-protocol"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "75081fd2e1d88b9f596a4ab5342097bba336e0dea9c9ad791746d62be24282e3"
+checksum = "582718c5bc86aaf3bb6aa578660394606450113ec92edabf55b8de9874ec6b60"
 dependencies = [
  "brotli",
  "bytes",
  "chrono",
  "chrono-humanize",
+ "derive_more",
  "dirs",
  "dirs-sys",
  "fancy-regex",
@@ -1217,9 +1213,9 @@ dependencies = [
 
 [[package]]
 name = "nu-system"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dbd7a734c96c69197496b502307eca408fa171898ba5d7228acdbbd02961d078"
+checksum = "ac0c7eedc3e56c44a0dfaba18af65b57c2f2e7e3d25fdc9ecf1e340754c7a82b"
 dependencies = [
  "chrono",
  "itertools 0.14.0",
@@ -1239,13 +1235,14 @@ dependencies = [
 
 [[package]]
 name = "nu-utils"
-version = "0.112.2"
+version = "0.113.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46dbde833d407a88a82d170597ed73626d9a8e198f51ee16886343c0c3479e81"
+checksum = "b0fb3edfae527414798ecf1c8fb3ffe998e3daaae0343f5f653060f5a765b8e5"
 dependencies = [
  "byteyarn",
  "crossterm",
  "crossterm_winapi",
+ "derive_more",
  "fancy-regex",
  "lean_string",
  "log",
@@ -1264,7 +1261,7 @@ dependencies = [
 
 [[package]]
 name = "nu_plugin_bson"
-version = "26.1121.0"
+version = "26.1130.0"
 dependencies = [
  "base64",
  "bson",
