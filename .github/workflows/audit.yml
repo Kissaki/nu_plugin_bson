@@ -3,7 +3,7 @@ on:
   schedule:
     - cron: '0 0 * * *'  # Daily check — advisories appear continuously
   push:
-    paths: ['Cargo.lock']
+    paths: ['Cargo.lock','.github/workflows/audit.yml']
 
 jobs:
   audit:
