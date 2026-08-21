@@ -51,7 +51,7 @@ impl PluginCommand for FromBson {
             }
             PipelineData::Value(value, _pipeline_metadata) => match value {
                 Value::Binary { val, .. } => {
-                    match bson::RawDocumentBuf::from_bytes(val) {
+                    match bson::RawDocumentBuf::from_bytes(val.to_vec()) {
                         Ok(doc_buf) => match doc_buf.to_document() {
                             Ok(doc) => {
                                 let value = convert_document2(&doc);
